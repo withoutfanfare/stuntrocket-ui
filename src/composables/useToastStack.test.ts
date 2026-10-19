@@ -118,4 +118,29 @@ describe('useToastStack', () => {
     })
     scope.stop()
   })
+
+  it('keeps a toast after the component that raised it is gone', () => {
+    // Typical flow: show "Saved", then navigate away from the page that saved.
+    const scope = effectScope()
+    scope.run(() => useToastStack().success('Saved'))
+    scope.stop()
+
+    const { toasts } = useToastStack()
+    expect(toasts.value.map((t) => t.message)).toEqual(['Saved'])
+    vi.advanceTimersByTime(4000)
+    expect(toasts.value).toHaveLength(0)
+  })
+
+  it('creates unique ids without crypto.randomUUID', () => {
+    // randomUUID is missing on plain http origins other than localhost.
+    vi.stubGlobal('crypto', {})
+    try {
+      const { info, toasts } = useToastStack()
+      info('one')
+      info('two')
+      expect(new Set(toasts.value.map((t) => t.id)).size).toBe(2)
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
 })
