@@ -56,7 +56,7 @@ onBeforeUnmount(() => {
         class="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
-        :aria-label="alt ? undefined : 'Image lightbox'"
+        :aria-label="alt || 'Image lightbox'"
         @click.self="emit('close')"
       >
         <!-- Close button -->
@@ -71,9 +71,8 @@ onBeforeUnmount(() => {
           </svg>
         </button>
 
-        <!-- Image. When alt is provided, only the img announces it (the dialog
-             already has aria-label). When alt is empty, dialog's aria-label
-             covers it and the img is decorative. -->
+        <!-- Image. The dialog is named by the alt text, or by 'Image lightbox'
+             when alt is empty, in which case the img is decorative. -->
         <img
           :src="src"
           :alt="alt"

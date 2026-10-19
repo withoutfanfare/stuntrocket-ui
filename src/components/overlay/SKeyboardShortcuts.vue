@@ -20,11 +20,7 @@ const emit = defineEmits<{ 'close': [] }>()
 </script>
 
 <template>
-  <SModal :open="open" max-width="max-w-2xl" @close="emit('close')">
-    <template #header>
-      <h2 class="text-base font-semibold text-text-primary">Keyboard Shortcuts</h2>
-    </template>
-
+  <SModal :open="open" title="Keyboard Shortcuts" max-width="max-w-2xl" @close="emit('close')">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div v-for="group in groups" :key="group.title">
         <h3 class="text-[12px] font-semibold text-text-secondary uppercase tracking-wider mb-3">

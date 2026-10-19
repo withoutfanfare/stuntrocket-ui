@@ -32,11 +32,7 @@ const isWarning = computed(() => props.variant === 'warning')
 </script>
 
 <template>
-  <SModal :open="open" max-width="max-w-sm" role="alertdialog" @close="emit('close')">
-    <template #header>
-      <h3 class="text-[14px] font-semibold tracking-tight text-text-primary">{{ title }}</h3>
-    </template>
-
+  <SModal :open="open" :title="title" max-width="max-w-sm" role="alertdialog" @close="emit('close')">
     <p
       v-if="message"
       class="text-[13px] leading-relaxed text-text-secondary"

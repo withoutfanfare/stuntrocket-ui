@@ -28,7 +28,7 @@ const overlays: [string, Component, Record<string, unknown>][] = [
   ['SImageLightbox', SImageLightbox, { src: '/a.png' }],
   ['SCommandPalette', SCommandPalette, {}],
   ['SConfirmDialog', SConfirmDialog, { title: 'Sure?' }],
-  ['SKeyboardShortcuts', SKeyboardShortcuts, { title: 'Keys', shortcuts: [] }],
+  ['SKeyboardShortcuts', SKeyboardShortcuts, { groups: [] }],
 ]
 
 describe('server rendering', () => {
