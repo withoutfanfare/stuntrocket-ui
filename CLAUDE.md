@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`@stuntrocket/ui` — shared Vue 3 + Tailwind CSS v4 component library for Stuntrocket's Tauri desktop app portfolio. Pure Vue + Tailwind with zero external UI dependencies. Published to local Verdaccio registry (`http://localhost:4873`).
+`@stuntrocket/ui` — shared Vue 3 + Tailwind CSS v4 component library for Stuntrocket's Tauri desktop app portfolio. Pure Vue + Tailwind with zero external UI dependencies. Published to the public npm registry.
 
 ## Commands
 

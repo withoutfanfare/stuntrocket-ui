@@ -50,7 +50,9 @@ const valueGlow = computed(() => {
         <p
           :class="['truncate text-2xl font-semibold tabular-nums', valueClass]"
           :style="valueGlow ? { textShadow: valueGlow } : undefined"
-        >{{ value }}</p>
+        >
+{{ value }}
+</p>
       </div>
     </div>
 

@@ -1,4 +1,4 @@
-import { ref, onScopeDispose, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 
 export interface Toast {
   id: string
@@ -22,17 +22,17 @@ const DEFAULT_DURATION = 4000
 // Module-level singleton state so all consumers share the same stack
 const toasts = ref<Toast[]>([])
 const timeouts = new Map<string, ReturnType<typeof setTimeout>>()
+let nextId = 0
 
+// Toasts belong to the app, not to the component that raised them, so they
+// outlive navigation and are removed only by their own timer or by the user.
 export function useToastStack(): UseToastStackReturn {
-  // Track timeouts created during this scope for cleanup
-  const scopeTimeoutIds: string[] = []
-
   function addToast(
     message: string,
     variant: Toast['variant'] = 'info',
     duration: number = DEFAULT_DURATION,
   ) {
-    const id = crypto.randomUUID()
+    const id = `toast-${++nextId}`
     const toast: Toast = { id, message, variant, duration }
 
     toasts.value.push(toast)
@@ -42,7 +42,6 @@ export function useToastStack(): UseToastStackReturn {
     }, duration)
 
     timeouts.set(id, timeout)
-    scopeTimeoutIds.push(id)
   }
 
   function removeToast(id: string) {
@@ -57,22 +56,6 @@ export function useToastStack(): UseToastStackReturn {
       toasts.value.splice(index, 1)
     }
   }
-
-  onScopeDispose(() => {
-    for (const id of scopeTimeoutIds) {
-      const timeout = timeouts.get(id)
-      if (timeout) {
-        clearTimeout(timeout)
-        timeouts.delete(id)
-      }
-      // Also splice the toast out of the shared singleton array — otherwise it
-      // has no timer left to remove it and renders forever.
-      const index = toasts.value.findIndex((t) => t.id === id)
-      if (index !== -1) {
-        toasts.value.splice(index, 1)
-      }
-    }
-  })
 
   return {
     toasts,

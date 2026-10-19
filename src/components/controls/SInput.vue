@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useId } from 'vue'
+import { useFieldAttrs } from '../../composables/useFieldAttrs'
+
+defineOptions({ inheritAttrs: false })
 
 export interface SInputProps {
   modelValue?: string | number
@@ -39,17 +42,20 @@ function onInput(e: Event) {
     emit('update:modelValue', target.value)
   }
 }
+
+const { rootAttrs, fieldAttrs } = useFieldAttrs()
 </script>
 
 <template>
   <!-- Single-root wrapper so the input never unmounts when an error appears
        mid-typing (the old fragment + v-if pattern lost focus & caret). -->
-  <div class="space-y-1.5">
+  <div class="space-y-1.5" v-bind="rootAttrs">
     <label v-if="label" :for="inputId" class="block text-[13px] font-medium leading-snug text-text-primary">
       {{ label }}
       <span v-if="required" class="text-danger ml-0.5">*</span>
     </label>
     <input
+      v-bind="fieldAttrs"
       :id="inputId"
       :value="modelValue"
       :type="type"

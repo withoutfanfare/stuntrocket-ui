@@ -857,10 +857,6 @@ The canonical token source is `src/css/tokens.css` in this repository. It is pub
 All Stuntrocket Tauri apps consume the shared component library:
 
 ```bash
-# .npmrc
-@stuntrocket:registry=http://localhost:4873
-
-# Install
 npm install @stuntrocket/ui
 ```
 

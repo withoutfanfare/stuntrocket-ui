@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, nextTick, onBeforeUnmount } from 'vue'
+import { ref, watch, nextTick, toRef } from 'vue'
+import { useFocusTrap } from '../../composables'
+import { useScrollLock } from '../../composables/useScrollLock'
 
 export interface SCommandPaletteProps {
   open?: boolean
@@ -24,14 +26,12 @@ const emit = defineEmits<{
 const query = ref('')
 const inputRef = ref<HTMLInputElement | null>(null)
 const resultsRef = ref<HTMLElement | null>(null)
+const panelRef = ref<HTMLElement | null>(null)
 const selectedIndex = ref(0)
 
 watch(
   () => props.open,
   (isOpen) => {
-    // Body scroll lock while the palette is open
-    document.body.style.overflow = isOpen ? 'hidden' : ''
-
     if (isOpen) {
       query.value = ''
       selectedIndex.value = 0
@@ -41,9 +41,9 @@ watch(
   { immediate: true },
 )
 
-onBeforeUnmount(() => {
-  document.body.style.overflow = ''
-})
+useScrollLock(() => props.open)
+// Keeps Tab inside the palette and returns focus to the trigger on close.
+useFocusTrap(panelRef, toRef(props, 'open'))
 
 // Reset selection when the search query changes.
 watch(query, () => {
@@ -135,6 +135,7 @@ function onInputKeydown(e: KeyboardEvent) {
         >
           <div
             v-if="open"
+            ref="panelRef"
             class="mx-auto mt-[18vh] w-full max-w-lg overflow-hidden rounded-xl bg-surface shadow-2xl ring-1 ring-border"
           >
             <!-- Input area -->
@@ -150,6 +151,7 @@ function onInputKeydown(e: KeyboardEvent) {
                 ref="inputRef"
                 :value="query"
                 :placeholder="placeholder"
+                aria-label="Search commands"
                 class="flex-1 bg-transparent text-[14px] text-text-primary outline-none placeholder:text-text-secondary/50"
                 @input="onInput"
                 @keydown="onInputKeydown"
@@ -169,7 +171,7 @@ function onInputKeydown(e: KeyboardEvent) {
 
             <!-- Results area -->
             <div ref="resultsRef" class="max-h-[320px] overflow-y-auto">
-              <slot :selectedIndex="selectedIndex" />
+              <slot :selected-index="selectedIndex" />
             </div>
           </div>
         </Transition>

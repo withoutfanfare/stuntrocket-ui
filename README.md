@@ -6,21 +6,13 @@ Shared UI component library for Stuntrocket's Tauri desktop application portfoli
 
 ## Quick Start
 
-### 1. Registry config
-
-Create or update `.npmrc` in your project root:
-
-```ini
-@stuntrocket:registry=http://localhost:4873
-```
-
-### 2. Install
+### 1. Install
 
 ```bash
 npm install @stuntrocket/ui
 ```
 
-### 3. CSS imports
+### 2. CSS imports
 
 Add to your app's main stylesheet, **after** Tailwind imports:
 
@@ -44,7 +36,7 @@ Alternatively, import the precompiled bundle:
 
 > **Peer dependency:** Vue 3.5+ is required (uses `useId()` for stable DOM ids across form and overlay components).
 
-### 4. Poppins font
+### 3. Poppins font
 
 Add to `index.html` `<head>`:
 
@@ -57,7 +49,7 @@ Add to `index.html` `<head>`:
 />
 ```
 
-### 5. Dark mode
+### 4. Dark mode
 
 Add an inline script in `<head>` to prevent flash of unstyled content:
 
@@ -253,7 +245,7 @@ npm run dev                # Build with file watching
 
 1. Update version in `package.json`
 2. `npm run build`
-3. `npm publish` (publishes to local Verdaccio at `http://localhost:4873`)
+3. `npm publish` (publishes to the public npm registry)
 
 ---
 
@@ -275,4 +267,4 @@ npm run dev                # Build with file watching
 
 ## Licence
 
-UNLICENSED -- private package for internal use.
+MIT. See [LICENSE](LICENSE).

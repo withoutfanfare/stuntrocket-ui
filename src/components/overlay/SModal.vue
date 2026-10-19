@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, toRef, onMounted, onBeforeUnmount, useId } from 'vue'
+import { ref, toRef, onMounted, onBeforeUnmount, useId } from 'vue'
 import { useFocusTrap } from '../../composables'
+import { useScrollLock } from '../../composables/useScrollLock'
 
 export interface SModalProps {
   open?: boolean
@@ -52,13 +53,7 @@ function onKeydown(e: KeyboardEvent) {
 
 // Body scroll lock while the modal is open. `immediate: true` covers the case
 // where the modal is mounted with `open: true` (deep link, restored state).
-watch(
-  () => props.open,
-  (isOpen) => {
-    document.body.style.overflow = isOpen ? 'hidden' : ''
-  },
-  { immediate: true },
-)
+useScrollLock(() => props.open)
 
 // Document-level Escape listener — the previous `@keydown` on the overlay div
 // only fired when a child already had focus, which never happened because the
@@ -69,7 +64,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   document.removeEventListener('keydown', onKeydown)
-  document.body.style.overflow = ''
 })
 </script>
 

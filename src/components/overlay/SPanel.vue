@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, toRef, onMounted, onBeforeUnmount, useId } from 'vue'
+import { ref, toRef, onMounted, onBeforeUnmount, useId } from 'vue'
 import { useFocusTrap } from '../../composables'
+import { useScrollLock } from '../../composables/useScrollLock'
 
 export interface SPanelProps {
   open?: boolean
@@ -42,13 +43,7 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 // Body scroll lock. `immediate: true` covers mounting with `open: true`.
-watch(
-  () => props.open,
-  (isOpen) => {
-    document.body.style.overflow = isOpen ? 'hidden' : ''
-  },
-  { immediate: true },
-)
+useScrollLock(() => props.open)
 
 onMounted(() => {
   document.addEventListener('keydown', onKeydown)
@@ -56,7 +51,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   document.removeEventListener('keydown', onKeydown)
-  document.body.style.overflow = ''
 })
 </script>
 

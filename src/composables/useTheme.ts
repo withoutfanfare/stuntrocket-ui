@@ -1,4 +1,4 @@
-import { ref, computed, watchEffect, type Ref, type ComputedRef } from 'vue'
+import { ref, computed, effectScope, watchEffect, type Ref, type ComputedRef } from 'vue'
 
 export type ThemeMode = 'light' | 'dark' | 'system'
 
@@ -88,13 +88,17 @@ function initialise(storageKey: string) {
 
   applyClass(isDark.value)
 
-  if (watchersRegistered) return
+  if (watchersRegistered || typeof window === 'undefined') return
   watchersRegistered = true
 
   // Register global watchers exactly once so consumers don't stack duplicates.
-  watchEffect(() => applyClass(isDark.value))
-  watchEffect(() => {
-    safeLocalStorage()?.setItem(storageKey, mode.value)
+  // A detached scope keeps them alive when the component that first called
+  // `useTheme()` unmounts.
+  effectScope(true).run(() => {
+    watchEffect(() => applyClass(isDark.value))
+    watchEffect(() => {
+      try { safeLocalStorage()?.setItem(storageKey, mode.value) } catch { /* storage blocked or full */ }
+    })
   })
 }
 
