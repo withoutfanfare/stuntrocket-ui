@@ -1,6 +1,10 @@
-import { describe, it, expect } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { describe, it, expect, afterEach } from 'vitest'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
 import SModal from './SModal.vue'
+
+// Overlays share one scroll lock, so a modal left mounted would hold it open
+// into the next test.
+enableAutoUnmount(afterEach)
 
 describe('SModal', () => {
   it('not rendered when open=false', () => {

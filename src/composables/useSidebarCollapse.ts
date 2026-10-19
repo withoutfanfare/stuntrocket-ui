@@ -16,11 +16,15 @@ export function useSidebarCollapse(
   storageKey = 'sidebar-collapsed',
 ): UseSidebarCollapseReturn {
   function readStored(): boolean {
-    return localStorage.getItem(storageKey) === 'true'
+    try {
+      return localStorage.getItem(storageKey) === 'true'
+    } catch {
+      return false /* localStorage unavailable (server rendering, blocked storage) */
+    }
   }
 
   function persist(value: boolean) {
-    localStorage.setItem(storageKey, String(value))
+    try { localStorage.setItem(storageKey, String(value)) } catch { /* localStorage unavailable */ }
   }
 
   const collapsed = ref(readStored())

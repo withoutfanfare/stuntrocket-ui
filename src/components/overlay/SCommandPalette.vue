@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, watch, nextTick, onBeforeUnmount } from 'vue'
+import { ref, watch, nextTick } from 'vue'
+import { useScrollLock } from '../../composables/useScrollLock'
 
 export interface SCommandPaletteProps {
   open?: boolean
@@ -29,9 +30,6 @@ const selectedIndex = ref(0)
 watch(
   () => props.open,
   (isOpen) => {
-    // Body scroll lock while the palette is open
-    document.body.style.overflow = isOpen ? 'hidden' : ''
-
     if (isOpen) {
       query.value = ''
       selectedIndex.value = 0
@@ -41,9 +39,7 @@ watch(
   { immediate: true },
 )
 
-onBeforeUnmount(() => {
-  document.body.style.overflow = ''
-})
+useScrollLock(() => props.open)
 
 // Reset selection when the search query changes.
 watch(query, () => {
