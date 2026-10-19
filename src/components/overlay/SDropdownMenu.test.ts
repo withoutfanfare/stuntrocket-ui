@@ -78,8 +78,6 @@ describe('SDropdownMenu', () => {
     const allButtons = wrapper.findAll('button')
     const editButton = allButtons.find(b => b.text() === 'Edit')
     await editButton!.trigger('click')
-    // After selection, items should no longer be visible
-    const itemButtons = wrapper.findAll('button').filter(b => b.text() === 'Edit' && !b.classes().includes('trigger-btn'))
     // The menu panel should have been removed
     expect(wrapper.find('.s-dropdown-menu div[class*="absolute"]').exists()).toBe(false)
   })

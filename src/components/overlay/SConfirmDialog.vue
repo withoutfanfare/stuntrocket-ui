@@ -40,7 +40,9 @@ const isWarning = computed(() => props.variant === 'warning')
     <p
       v-if="message"
       class="text-[13px] leading-relaxed text-text-secondary"
-    >{{ message }}</p>
+    >
+{{ message }}
+</p>
     <div v-if="$slots.default" class="mt-3">
       <slot />
     </div>

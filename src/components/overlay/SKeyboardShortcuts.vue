@@ -20,7 +20,7 @@ const emit = defineEmits<{ 'close': [] }>()
 </script>
 
 <template>
-  <SModal :open="open" maxWidth="max-w-2xl" @close="emit('close')">
+  <SModal :open="open" max-width="max-w-2xl" @close="emit('close')">
     <template #header>
       <h2 class="text-base font-semibold text-text-primary">Keyboard Shortcuts</h2>
     </template>
@@ -38,8 +38,8 @@ const emit = defineEmits<{ 'close': [] }>()
           >
             <span class="text-[13px] text-text-primary">{{ shortcut.description }}</span>
             <span class="flex items-center gap-1 shrink-0">
-              <template v-for="(key, i) in shortcut.keys.split('+')" :key="i">
-                <span v-if="i > 0" class="text-[10px] text-text-secondary/50">+</span>
+              <template v-for="(key, ki) in shortcut.keys.split('+')" :key="ki">
+                <span v-if="ki > 0" class="text-[10px] text-text-secondary/50">+</span>
                 <SKbd>{{ key.trim() }}</SKbd>
               </template>
             </span>

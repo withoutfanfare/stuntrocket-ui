@@ -33,7 +33,8 @@ function setItemRef(el: Element | unknown, i: number) {
 }
 
 function toggle() {
-  isOpen.value ? close() : open()
+  if (isOpen.value) close()
+  else open()
 }
 
 function open() {

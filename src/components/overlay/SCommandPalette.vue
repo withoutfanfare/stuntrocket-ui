@@ -169,7 +169,7 @@ function onInputKeydown(e: KeyboardEvent) {
 
             <!-- Results area -->
             <div ref="resultsRef" class="max-h-[320px] overflow-y-auto">
-              <slot :selectedIndex="selectedIndex" />
+              <slot :selected-index="selectedIndex" />
             </div>
           </div>
         </Transition>
