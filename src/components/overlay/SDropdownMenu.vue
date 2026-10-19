@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onBeforeUnmount, nextTick, watch } from 'vue'
+import { ref, computed, onBeforeUnmount, nextTick, watch } from 'vue'
 
 export interface SDropdownMenuItem {
   label: string
@@ -27,6 +27,14 @@ const focusedIndex = ref(-1)
 const panelRef = ref<HTMLDivElement | null>(null)
 const rootRef = ref<HTMLDivElement | null>(null)
 const itemButtonRefs = ref<HTMLButtonElement[]>([])
+// Where focus was before opening, so keyboard closes can return it there.
+let returnFocusTo: HTMLElement | null = null
+
+/** Bind to the trigger element with `v-bind="triggerAttrs"`. */
+const triggerAttrs = computed(() => ({
+  'aria-haspopup': 'menu' as const,
+  'aria-expanded': isOpen.value,
+}))
 
 function setItemRef(el: Element | unknown, i: number) {
   if (el) itemButtonRefs.value[i] = el as HTMLButtonElement
@@ -38,23 +46,29 @@ function toggle() {
 }
 
 function open() {
+  returnFocusTo = document.activeElement as HTMLElement | null
   isOpen.value = true
   focusedIndex.value = -1
   nextTick(() => {
     document.addEventListener('click', onClickOutside, true)
+    const first = props.items.findIndex((item) => !item.disabled)
+    if (first !== -1) focusItem(first)
   })
 }
 
-function close() {
+/** `restoreFocus` is for keyboard and selection closes; a click elsewhere keeps its own focus. */
+function close(restoreFocus = false) {
   isOpen.value = false
   focusedIndex.value = -1
   document.removeEventListener('click', onClickOutside, true)
+  if (restoreFocus) returnFocusTo?.focus()
+  returnFocusTo = null
 }
 
 function selectItem(item: SDropdownMenuItem) {
   if (item.disabled) return
   emit('select', item.value)
-  close()
+  close(true)
 }
 
 function onClickOutside(e: MouseEvent) {
@@ -81,8 +95,19 @@ function focusItem(index: number) {
 function onKeydown(e: KeyboardEvent) {
   if (!isOpen.value) return
 
+  if (e.key === 'Escape') {
+    e.preventDefault()
+    close(true)
+    return
+  }
+  if (e.key === 'Tab') {
+    // Let Tab move focus on as normal, but don't leave the menu hanging open.
+    close()
+    return
+  }
+
   const enabled = getEnabledItems()
-  if (!enabled.length && e.key !== 'Escape') return
+  if (!enabled.length) return
 
   if (e.key === 'ArrowDown') {
     e.preventDefault()
@@ -113,9 +138,6 @@ function onKeydown(e: KeyboardEvent) {
     for (let i = props.items.length - 1; i >= 0; i--) {
       if (!props.items[i].disabled) { focusItem(i); break }
     }
-  } else if (e.key === 'Escape') {
-    e.preventDefault()
-    close()
   }
 }
 
@@ -135,7 +157,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div ref="rootRef" class="s-dropdown-menu relative inline-block">
-    <slot name="trigger" :toggle="toggle" :open="isOpen" />
+    <slot name="trigger" :toggle="toggle" :open="isOpen" :trigger-attrs="triggerAttrs" />
 
     <Transition
       enter-active-class="transition duration-[120ms] ease-out"
@@ -156,7 +178,7 @@ onBeforeUnmount(() => {
       >
         <!-- Slot-based composition when items array is empty -->
         <template v-if="items.length === 0">
-          <slot name="content" :close="close" />
+          <slot name="content" :close="() => close(true)" />
         </template>
 
         <!-- Items-array rendering (existing behaviour) -->

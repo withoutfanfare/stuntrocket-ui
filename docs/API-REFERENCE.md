@@ -990,7 +990,7 @@ interface SDropdownMenuItem {
 
 | Slot | Scope | Description |
 |------|-------|-------------|
-| `trigger` | `{ toggle: () => void, open: boolean }` | The element that opens the menu |
+| `trigger` | `{ toggle: () => void, open: boolean, triggerAttrs: object }` | The element that opens the menu. Bind `v-bind="triggerAttrs"` on it for `aria-haspopup` and `aria-expanded` |
 | `content` | `{ close: () => void }` | Custom menu content (used when `items` is empty) |
 
 ---
