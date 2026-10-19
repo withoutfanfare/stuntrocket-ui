@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useId } from 'vue'
+import { useFieldAttrs } from '../../composables/useFieldAttrs'
+
+defineOptions({ inheritAttrs: false })
 
 export interface SSelectProps {
   modelValue?: string
@@ -25,15 +28,18 @@ const emit = defineEmits<{
 const inputId = `s-select-${useId()}`
 const hintId = `s-select-hint-${useId()}`
 const errorId = `s-select-error-${useId()}`
+
+const { rootAttrs, fieldAttrs } = useFieldAttrs()
 </script>
 
 <template>
-  <div class="space-y-1.5">
+  <div class="space-y-1.5" v-bind="rootAttrs">
     <label v-if="label" :for="inputId" class="block text-[13px] font-medium leading-snug text-text-primary">
       {{ label }}
       <span v-if="required" class="text-danger ml-0.5">*</span>
     </label>
     <select
+      v-bind="fieldAttrs"
       :id="inputId"
       :value="modelValue"
       :disabled="disabled"
