@@ -275,4 +275,4 @@ npm run dev                # Build with file watching
 
 ## Licence
 
-UNLICENSED -- private package for internal use.
+MIT. See [LICENSE](LICENSE).
