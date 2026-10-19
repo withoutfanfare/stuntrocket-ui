@@ -1,0 +1,227 @@
+/**
+ * Stuntrocket Design Tokens
+ * =========================
+ * Foundation of the shared visual identity. Requires Tailwind CSS v4.
+ *
+ * This file contains ONLY design tokens — the @theme block, .dark overrides,
+ * and :root custom properties. Companion files hold the rest of the system:
+ *   - base.css        Root resets, cursor affordances, focus rings,
+ *                     micro-animations, reduced-motion.
+ *   - scrollbar.css   Custom scrollbar styling.
+ *   - ambient.css     Ambient background blobs.
+ *   - components.css  Shared component primitives (ui-select, topbar chips,
+ *                     prose dark-mode overrides, keyframes).
+ *
+ * Per-app accent override:
+ *   Set --color-accent (and --color-accent-hover) in your app's
+ *   own stylesheet to rebrand without touching this file.
+ *   e.g. :root { --color-accent: #7C3AED; --color-accent-hover: #6D28D9; }
+ *
+ * Usage:
+ *   1. @import 'tailwindcss';
+ *   2. @plugin '@tailwindcss/typography';
+ *   3. Paste or @import this file after the above.
+ *   4. Add Poppins via Google Fonts <link> in your HTML.
+ */
+
+/* ═══════════════════════════════════════════════════
+   1. Theme Tokens (Tailwind @theme)
+   ═══════════════════════════════════════════════════ */
+
+@theme {
+  /* Typography */
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Surfaces — Light mode */
+  --color-surface: #FFFFFF;
+  --color-surface-app: #F5F5F4;
+  --color-surface-secondary: #F5F5F3;
+  --color-sidebar: #F9F9F7;
+  --color-surface-raised: #FFFFFF;
+  --color-surface-overlay: rgba(0, 0, 0, 0.04);
+  --color-surface-input: #F9F9F7;
+
+  /* Text — Light mode */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #737373;
+  --color-text-tertiary: #999999;
+  --color-text-inverse: #FFFFFF;
+
+  /* Chrome — Light mode */
+  --color-border: #E5E5E2;
+  --color-accent: #2563EB;
+  --color-accent-hover: #1D4ED8;
+
+  /* Status — Light mode */
+  --color-success: #5A9A6B;
+  --color-warning: #C49432;
+  --color-danger: #C45454;
+  --color-info: #3B82F6;
+
+  /* Code — Light mode */
+  --color-code-surface: #F7F8FB;
+  --color-code-border: #DCE1EA;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   2. Light-mode Tokens (:root custom properties)
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  /* Scrollbar */
+  --scrollbar-thumb: rgba(37, 99, 235, 0.38);
+  --scrollbar-thumb-hover: rgba(37, 99, 235, 0.58);
+  --scrollbar-thumb-active: rgba(37, 99, 235, 0.75);
+  --scrollbar-track: rgba(115, 115, 115, 0.16);
+
+  /* Alpha borders */
+  --color-border-subtle: rgba(0, 0, 0, 0.08);
+  --color-border-default: rgba(0, 0, 0, 0.12);
+  --color-border-strong: rgba(0, 0, 0, 0.18);
+
+  /* Accent subtle */
+  --color-accent-subtle: rgba(37, 99, 235, 0.10);
+
+  /* Surface states */
+  --color-surface-hover: rgba(0, 0, 0, 0.04);
+  --color-surface-selected: rgba(100, 120, 140, 0.10);
+  --color-surface-selected-strong: rgba(100, 120, 140, 0.16);
+
+  /* Status subtles */
+  --color-success-subtle: rgba(90, 154, 107, 0.10);
+  --color-warning-subtle: rgba(196, 148, 50, 0.10);
+  --color-danger-subtle: rgba(196, 84, 84, 0.10);
+  --color-info-subtle: rgba(59, 130, 246, 0.10);
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 999px;
+
+  /* Shadows — Light mode */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-sheet: 0 8px 32px rgba(0, 0, 0, 0.16);
+  --shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.20);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-overlay: 0 8px 32px rgba(0, 0, 0, 0.16);
+  --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+  /* Durations */
+  --duration-instant: 80ms;
+  --duration-fast: 120ms;
+  --duration-normal: 180ms;
+  --duration-smooth: 200ms;
+  --duration-slow: 280ms;
+
+  /* Easings */
+  --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out: cubic-bezier(0, 0, 0.25, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+
+  /* Layout */
+  --toolbar-height: 52px;
+  --sidebar-width: 220px;
+  --sidebar-width-wide: 280px;
+  --inspector-width: 260px;
+  --list-row-height: 34px;
+  --sidebar-row-height: 30px;
+}
+
+
+/* ═══════════════════════════════════════════════════
+   3. Dark Mode Overrides
+   ═══════════════════════════════════════════════════ */
+
+.dark {
+  /* Surfaces */
+  --color-surface: #171717;
+  --color-surface-app: #1E1E1E;
+  --color-surface-secondary: #262626;
+  --color-sidebar: #1A1A1A;
+  --color-surface-raised: #1E1E1E;
+  --color-surface-overlay: rgba(255, 255, 255, 0.04);
+  --color-surface-input: #1A1A1A;
+
+  /* Text */
+  --color-text-primary: #EDEDED;
+  --color-text-secondary: #999999;
+  --color-text-tertiary: #666666;
+  --color-text-inverse: #1A1A1A;
+
+  /* Chrome */
+  --color-border: #303030;
+  --color-accent: #60A5FA;
+  --color-accent-hover: #93C5FD;
+
+  /* Status */
+  --color-success: #6AAA7B;
+  --color-warning: #D4A442;
+  --color-danger: #D46464;
+  --color-info: #60A5FA;
+
+  /* Code */
+  --color-code-surface: #1E1F24;
+  --color-code-border: #31343D;
+
+  /* Scrollbar */
+  --scrollbar-thumb: rgba(96, 165, 250, 0.45);
+  --scrollbar-thumb-hover: rgba(96, 165, 250, 0.66);
+  --scrollbar-thumb-active: rgba(96, 165, 250, 0.8);
+  --scrollbar-track: rgba(115, 115, 115, 0.2);
+
+  /* Alpha borders (white-based for dark backgrounds) */
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-default: rgba(255, 255, 255, 0.12);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+
+  /* Accent subtle */
+  --color-accent-subtle: rgba(96, 165, 250, 0.14);
+
+  /* Surface states */
+  --color-surface-hover: rgba(255, 255, 255, 0.04);
+  --color-surface-selected: rgba(150, 170, 190, 0.10);
+  --color-surface-selected-strong: rgba(150, 170, 190, 0.16);
+
+  /* Status subtles */
+  --color-success-subtle: rgba(106, 170, 123, 0.14);
+  --color-warning-subtle: rgba(212, 164, 66, 0.14);
+  --color-danger-subtle: rgba(212, 100, 100, 0.14);
+  --color-info-subtle: rgba(96, 165, 250, 0.14);
+
+  /* Shadows — heavier opacities for dark mode */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-sheet: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-focus: 0 0 0 3px rgba(96, 165, 250, 0.25);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-overlay: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.4);
+}

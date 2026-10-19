@@ -1,0 +1,113 @@
+/**
+ * Stuntrocket Base Styles
+ * =======================
+ * Core resets, cursor affordances, focus rings, text selection,
+ * micro-animations, and reduced motion support.
+ *
+ * Import after tokens.css.
+ */
+
+/* --- Root Defaults --- */
+
+html {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 200ms;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* --- Cursor Affordances --- */
+
+a[href],
+button,
+[role='button'],
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+[role='button'][aria-disabled='true'],
+a[aria-disabled='true'] {
+  cursor: not-allowed;
+}
+
+/* --- Focus Visible Ring --- */
+
+:where(a[href], button, [role='button'], input, select, textarea):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+  outline-offset: 2px;
+}
+
+/* --- Text Selection --- */
+
+*:not(input):not(textarea):not([contenteditable='true']) {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.prose,
+.prose *,
+[data-selectable],
+[data-selectable] * {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+
+/* --- Micro-Animations --- */
+
+nav a,
+nav button {
+  transition: background-color 150ms ease, color 150ms ease, transform 100ms ease;
+}
+
+nav a:active,
+nav button:active {
+  transform: scale(0.98);
+}
+
+[style*="no-drag"] button {
+  transition: background-color 150ms ease, color 150ms ease, transform 80ms ease;
+}
+
+[style*="no-drag"] button:active {
+  transform: scale(0.94);
+}
+
+.prose a {
+  transition: color 150ms ease;
+}
+
+/* --- Reduced Motion --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .prose[data-enter] {
+    animation: none !important;
+  }
+
+  .page-enter-active,
+  .page-leave-active,
+  .section-enter-active,
+  .section-leave-active,
+  .sidebar-transition {
+    transition-duration: 0.01s !important;
+  }
+
+  nav a,
+  nav button,
+  [style*="no-drag"] button,
+  .prose a,
+  .prose .heading-anchor,
+  .prose pre .code-copy-btn,
+  .sidebar-resize-handle {
+    transition-duration: 0.01s !important;
+  }
+}

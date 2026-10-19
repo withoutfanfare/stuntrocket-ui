@@ -1,0 +1,88 @@
+/**
+ * Stuntrocket Ambient Background Blobs
+ * ====================================
+ * Floating gradient orbs that create depth and warmth.
+ * Import this alongside tokens.css in your app's main stylesheet.
+ *
+ * Usage:
+ *   <div class="ambient-blobs" aria-hidden="true">
+ *     <div class="ambient-blob blob-1"></div>
+ *     <div class="ambient-blob blob-2"></div>
+ *     <div class="ambient-blob blob-3"></div>
+ *   </div>
+ */
+
+.ambient-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  will-change: transform;
+  contain: strict;
+}
+
+.dark .ambient-blob {
+  opacity: 0.10;
+}
+
+.page-hidden .ambient-blob {
+  animation-play-state: paused;
+}
+
+.blob-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--color-accent);
+  top: -10%;
+  right: -5%;
+  animation: blob-drift-1 25s ease-in-out infinite;
+}
+
+.blob-2 {
+  width: 500px;
+  height: 500px;
+  background: var(--color-blob-2, #8B5CF6);
+  bottom: -8%;
+  left: -5%;
+  animation: blob-drift-2 30s ease-in-out infinite;
+}
+
+.blob-3 {
+  width: 400px;
+  height: 400px;
+  background: var(--color-blob-3, #06B6D4);
+  top: 40%;
+  left: 30%;
+  animation: blob-drift-3 20s ease-in-out infinite;
+}
+
+@keyframes blob-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-40px, 30px) scale(1.05); }
+  66%      { transform: translate(20px, -20px) scale(0.95); }
+}
+
+@keyframes blob-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(30px, -40px) scale(1.08); }
+  66%      { transform: translate(-20px, 20px) scale(0.92); }
+}
+
+@keyframes blob-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-30px, 30px) scale(1.1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-blob {
+    animation: none !important;
+  }
+}

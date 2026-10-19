@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+/* Tell Tailwind to scan the library source and this dev app for utility classes */
+@source "../src";
+@source ".";
+
+/* Import the library's design tokens (contains @theme block) */
+@import '../src/css/tokens.css';
+
+/* Import the library's base styles */
+@import '../src/css/base.css';
+
+/* Import branded scrollbars */
+@import '../src/css/scrollbar.css';
+
+/* Import ambient blob animations */
+@import '../src/css/ambient.css';
