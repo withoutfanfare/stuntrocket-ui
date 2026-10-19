@@ -21,13 +21,9 @@ A practical reference for migrating custom component implementations across Stun
 
 ### Install or update the library
 
-The library is published to the local Verdaccio registry. Ensure Verdaccio is running on `http://localhost:4873` before installing.
+The library is published to the public npm registry. If an app's `.npmrc` still has an `@stuntrocket:registry=http://localhost:4873` line, remove it.
 
 ```bash
-# Add to .npmrc (once per app, if not already present)
-echo "@stuntrocket:registry=http://localhost:4873" >> .npmrc
-
-# Install or update
 npm install @stuntrocket/ui@latest
 ```
 
